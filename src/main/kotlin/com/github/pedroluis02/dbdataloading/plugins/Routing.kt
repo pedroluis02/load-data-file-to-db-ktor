@@ -1,5 +1,7 @@
 package com.github.pedroluis02.dbdataloading.plugins
 
+import com.github.pedroluis02.dbdataloading.domain.DataLoadingRepository
+import com.github.pedroluis02.dbdataloading.repository.NativeDataLoadingRepository
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.server.application.*
@@ -25,9 +27,13 @@ fun Application.configureRouting() {
             val part = multiPart.readPart()
             if (part is PartData.FileItem) {
                 val name = part.originalFileName as String
-                File("${System.currentTimeMillis()}-$name")
-                    .writeBytes(part.provider().readRemaining().readByteArray())
+                val file = File("${System.currentTimeMillis()}-$name").apply {
+                    writeBytes(part.provider().readRemaining().readByteArray())
+                }
                 part.dispose()
+
+                val repo: DataLoadingRepository = NativeDataLoadingRepository()
+                repo.load("load-data", file.path)
             }
 
             call.respond(HttpStatusCode.OK)
