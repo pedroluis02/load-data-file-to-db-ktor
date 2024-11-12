@@ -3,6 +3,7 @@ kotlin-version = "2.0.21"
 ktor-version = "3.0.1"
 logback-version = "1.4.14"
 h2-db-version = "2.3.232"
+mariadb-version = "3.5.0"
 
 [libraries]
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation-jvm", version.ref = "ktor-version" }
@@ -12,6 +13,7 @@ ktor-server-jetty-jakarta = { module = "io.ktor:ktor-server-jetty-jakarta-jvm", 
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-version" }
 ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml", version.ref = "ktor-version" }
 h2-database-engine = { module = "com.h2database:h2", version.ref = "h2-db-version" }
+mariadb-java-client = { module = "org.mariadb.jdbc:mariadb-java-client", version.ref = "mariadb-version" }
 ktor-server-test-host = { module = "io.ktor:ktor-server-test-host-jvm", version.ref = "ktor-version" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin-version" }
 
