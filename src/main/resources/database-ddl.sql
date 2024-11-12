@@ -1,4 +1,4 @@
-create table customer(
+create table if not exists customer(
     id bigint(11) not null auto_increment,
     code varchar(25) not null,
     name varchar(100) not null,
@@ -12,7 +12,7 @@ create table customer(
     subscription_date date,
     website varchar(200),
     created_at datetime not null default current_timestamp,
-    updated_at datetime not null default current_timestamp,
+    updated_at datetime on update current_timestamp,
     primary key (id),
     unique key customer_code_index (code)
 )

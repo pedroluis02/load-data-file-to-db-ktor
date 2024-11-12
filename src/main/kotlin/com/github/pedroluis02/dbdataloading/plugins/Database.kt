@@ -5,7 +5,7 @@ import java.sql.DriverManager
 import java.sql.SQLException
 
 fun Application.configureDatabases() {
-    configureH2()
+    configureMariaDB()
 }
 
 private fun configureH2() {
@@ -16,6 +16,19 @@ private fun configureH2() {
         val query = getResourceAsText("database-ddl.sql")
         println("ddl query: $query")
 
+        val result = connection.createStatement().execute(query)
+        println("query execution: $result")
+    } catch (ex: SQLException) {
+        println(ex.message)
+    }
+}
+
+private fun configureMariaDB() {
+    try {
+        val url = "jdbc:mariadb://127.0.0.1:3306/ldf-ktor"
+        val connection = DriverManager.getConnection(url, "ktor-user", "ktor-pass")
+
+        val query = getResourceAsText("database-ddl.sql")
         val result = connection.createStatement().execute(query)
         println("query execution: $result")
     } catch (ex: SQLException) {
