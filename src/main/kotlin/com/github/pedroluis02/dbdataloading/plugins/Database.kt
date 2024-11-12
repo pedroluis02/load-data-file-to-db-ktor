@@ -1,5 +1,7 @@
 package com.github.pedroluis02.dbdataloading.plugins
 
+import com.github.pedroluis02.dbdataloading.repository.DataSourceProvider
+import com.github.pedroluis02.dbdataloading.util.getResourceAsText
 import io.ktor.server.application.*
 import java.sql.DriverManager
 import java.sql.SQLException
@@ -25,16 +27,16 @@ private fun configureH2() {
 
 private fun configureMariaDB() {
     try {
-        val url = "jdbc:mariadb://127.0.0.1:3306/ldf-ktor"
-        val connection = DriverManager.getConnection(url, "ktor-user", "ktor-pass")
+        val connection = DataSourceProvider.setup(
+            "jdbc:mariadb://127.0.0.1:3306/ldf-ktor",
+            "ktor-user",
+            "ktor-pass"
+        )
 
         val query = getResourceAsText("database-ddl.sql")
-        val result = connection.createStatement().execute(query)
+        val result = connection?.createStatement()?.execute(query)
         println("query execution: $result")
     } catch (ex: SQLException) {
         println(ex.message)
     }
 }
-
-private fun getResourceAsText(path: String): String? =
-    object {}.javaClass.classLoader.getResource(path)?.readText()
